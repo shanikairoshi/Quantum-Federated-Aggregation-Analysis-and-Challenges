@@ -1,0 +1,325 @@
+%=================================================================
+\section{Introduction}\label{sec-intro}
+
+\subsection{Background}
+
+Recently, there has been rapid progress in quantum computing research, and the concept of using quantum computation (QC) to enhance machine learning tasks, referred to as quantum machine learning (QML), has gained substantial attention. This involves leveraging the unique properties of quantum systems to potentially accelerate and improve various aspects of machine learning processes.
+
+Federated Learning (FL) is a collection of distributed machine learning methods that enable the collaborative development of a machine learning model using data from different sources, while maintaining the privacy of the data. The term "federated learning" was coined by McMahan et al. [27–30], who demonstrated how local models trained on multiple devices can be aggregated to improve the overall performance of the model. The key objective of FL is to facilitate joint model training without centralizing data, thereby ensuring the privacy and security of each data owner's information.
+
+%Quantum Computing
+The rapid advancement of Quantum Computing (QC) and Federated Learning (FL) technologies has the potential to reshape computation and machine learning. QC utilizes quantum mechanics to perform complex computations faster than classical computers, while FL trains models across decentralized devices for privacy-preserving machine learning. These innovations could revolutionize various industries and domains.
+
+%Quantum Machine Learning
+
+%Quantum FL
+
+%FL aggreation
+%QFL aggregation
+
+The crucial step in the classical Federated Learning (FL) is the global aggregation. There are various well-known FL model aggregation algorithms used in this process. One of the pioneering strategies is called Federated averaging (FedAvg). FedAvg calculates the weighted average of local model updates from each participating client to create a global model. The weight assigned to each client's local model update is determined by the number of training data samples available at that client. This approach ensures that the global model incorporates contributions from all clients fairly.
+
+Federated stochastic gradient descent (FedSGD) is an alternative method in Federated Learning that updates the global model using stochastic gradient descent based on gradients computed locally by each client. The central server aggregates these gradients and applies the updates to the global model. FedSGD offers better communication efficiency than FedAvg, especially when clients have limited bandwidth or when the model size is large. To further enhance the global model's quality and handle noisy or malicious clients, more sophisticated aggregation techniques like geometric median, trimmed mean, or robust aggregation algorithms can be utilized. These methods aim to make the global model more resilient and accurate, taking into account the distributed and diverse nature of client data in Federated Learning scenarios.
+
+Similarly, in QFL, there is a lack of research findings about the optimal aggregation steps and procedures.
+\subsection{Motivation}
+The main emphasis of this study is to address the significant lack of research in the field of Quantum Federated Learning (QFL) and its associated designs for aggregation. The core goal of this research is to comprehensively explore the realm of QFL, encompassing an assessment of current approaches, recognition of obstacles and potential avenues, and ultimately providing guidance for new and innovative research directions.
+
+\subsection{Contribution}
+
+In this paper our main focus is to experiment with how to leverage the quantum mechanism into a federated aggregation process and thereby improve the efficiency of the overall process.
+
+\begin{itemize}
+    \item We offer a thorough overview of Quantum Federated Learning (QFL), encompassing current research, existing approaches and limitations, and prospects for future investigation.
+    \item We simulate the QFL aggregation process considering different settings such as frameworks, data encoding methods and aggregated components and how those affect the overall performance.
+\end{itemize}
+
+
+The subsequent sections of this paper are structured as follows.
+Section II provides an overview of the present status of quantum computers, detailing their current capabilities and limitations.
+Section III focus shifts to the realm of quantum federated learning (QFL), Various existing studies and approaches within this field are elaborated upon.
+Section IV delves into potential methods for implementing quantum federated learning, exploring the pathways to realize the concept.
+Within the Section V, attention is given to remarks and challenges associated with quantum federated learning, offering insights into the hurdles that need to be overcome. Finally, the paper concludes in Section VI, summarizing the key findings and contributions discussed in the preceding sections.
+
+\section{Related work}
+
+ \begin{table*}[h]
+ \begin{center}
+  \scriptsize
+\caption{Summary of QFL Literature}
+\label{tbl:TechnicalComparison}
+\setlength{\tabcolsep}{1.7pt}
+\begin{tabular}{p{0.5cm}p{3.25cm}p{4cm}p{4cm}p{4cm}}
+ \hline \toprule
+{\textbf{Ref}}	&	{\textbf{Context}}&  {\textbf{Description}} &{\textbf{Application}} &{\textbf{Limitations}}\\
+
+\hline
+%Review
+\cite{chen2021federated}&
+Review&
+Secure QML infrastructure and better utilization of NISQ
+devices
+& \\
+
+\cite{pujahari2022quantum}&
+Review&
+QFL principled and applications&
+wireless communication
+&
+
+%===================
+\cite{yang2021decentralizing}
+& Technical paper
+& Feature Extraction of VFL using Quantum Convolution
+& Decentralized speech processing
+&\\
+
+
+\bottomrule
+\end{tabular}
+\label{table:Analysis}
+ \end{center}
+\end{table*}
+
+The focus here is on leveraging quantum-based techniques for efficient model aggregation in Federated Learning (FL), such as quantum FedAvg and quantum FedSGD. These quantum-inspired model aggregation approaches exploit quantum parallelism to reduce the time and computational resources required for aggregating models in FL. By employing these methods, parallel model averaging can be performed, significantly speeding up the aggregation process.
+
+For instance, in FL scenarios with multiple clients having large-scale data, quantum-inspired model aggregation allows the weighted average of local model updates from all clients to be computed simultaneously, leading to reduced aggregation time.
+
+There are few number of surveys on growing field of QFL recently.
+However, none of them does not consider Aggregation specific discussion which implies the need of having such comprehensive survey.
+For instance, the review in \cite{chen2021federated} discusses federated quantum machine learning (QML), where models are trained across multiple quantum computers. The authors' framework combines quantum neural networks with classical models, achieving similar accuracy to centralized training but with faster distributed training. Challenges like privacy and secure infrastructure are addressed, showcasing the potential for secure QML infrastructure and better utilization of NISQ devices.
+\cite{pujahari2022quantum} introduces Quantum Neural Network (QNN) operations to wireless communication offers a novel approach, leveraging Quantum Federated Learning (QFL) to mitigate system complexity effectively.
+
+
+%Technical Papers
+%QFML
+The study in \cite{chen2021federated} introduces a FL setup employing a hybrid quantum-classical classifier, which involves the synergy of Quantum Neural Networks (QNN) and a classical pre-trained convolutional model. The authors conducted a comparison between federated and non-federated approaches. Their implementation demonstrated that distributed training was expedited in the federated setting, albeit with a minor reduction in the accuracy of the trained model.
+%quantumfed
+By harnessing Qutip's capabilities, the framework proposed in \cite{xia2021quantumfed} seeks to integrate the tenets of federated learning with quantum computing.
+This introduces the QuanFedPS algorithm for global updates in QFL, based on the update unitaries uploaded by each node. The work also verifies the Lemma, stating that the order of applying update unitaries almost does not matter, and the update unitaries almost surely exhibit the multiplicative identity property.
+The endeavour involves crafting a system wherein quantum nodes interact and cooperate, synergistically improving model performance collectively.
+
+In \cite{zhao2023nonQFLinf}, the non-IID (non-independent and identically distributed) issue in Quantum Federated Learning (QFL) is addressed. They propose a method called quantum federated inference (QFedInf), which decomposes a global quantum channel into local channels trained by each client using local density estimators. This approach enables achieving one-shot communication complexity for QFL on non-IID data.
+
+In \cite{chehimi2022quantum}, QFL is introduced by integrating quantum data, yielding a novel quantum dataset containing independent and identically distributed (IID) and non-IID client datasets. This framework employs TensorFlow Federated (TFF), TensorFlow Quantum (TFQ), and the Cirq Google simulator for implementation. TFF manages federated processes, TFQ incorporates quantum aspects, and Cirq provides a controlled environment for quantum computations. 
+\begin{comment}
+%\gangli{``narrow in on topic'' reminds you 
+%that readers and reviewers only know that this is a AI or HTM research paper (and maybe have read the title/abstract). 
+%You need to help them figure out what topic and area of research paper this is. 
+%You _don't_ need to wax poetic about the topic's importance.}
+
+%\gangli{`dig a hole'' reminds you that 
+%you need to convince the reader that there's a problem with the state of the world. 
+%Prior work may exist but it's either missing something important or there's a missing opportunity. 
+%The reader should be drooling for a bright future just out of reach.}
+
+%\gangli{``fill the hole'' reminds you to show the reader 
+%how and why the paper they're reading will fix these problems and deliver us into a better place. 
+%You don't need a whirlwind summary of the technical details, 
+%but you need readers convinced (and in a good mood) to keep reading.}
+
+\gangli{A good paper introduction is fairly formulaic. 
+If you follow a simple set of rules, 
+you can write a very good introduction. 
+The following outline can be varied. 
+For example, 
+you can use two paragraphs instead of one, 
+or you can place more emphasis on one aspect of the intro than another. 
+But in all cases, 
+all of the points below need to be covered in an introduction, 
+and in most papers, 
+you don't need to cover anything more in an introduction.}
+
+
+
+%\todo{The importance of the area}
+%\blindtext
+\todo{Motivation}
+At a high level, 
+what is the problem area you are working in and why is it important? 
+It is important to set the larger context here. 
+Why is the problem of interest and importance to the larger community?
+
+
+%\todo{The problems faced by most current methods}
+%\blindtext
+\todo{What is the specific problem considered in this paper?}
+This paragraph narrows down the topic area of the paper. 
+In the first paragraph you have established general context and importance. 
+Here you establish specific context and background.
+
+%\todo{What can be addressed by existing methods; Why those problems are challenges to existing methods?}
+%\blindtext
+\todo{Contribution}
+"In this paper, we show that ...". 
+This is the key paragraph in the intro - you summarize, 
+in one paragraph, 
+what are the main contributions of your paper given the context 
+you have established in paragraphs 1 and 2. 
+What is the general approach taken? 
+Why are the specific results significant? 
+This paragraph must be really good. 
+
+You should think about how to structure these one or 
+two paragraph summaries of what your paper is all about. 
+If there are two or three main results, 
+then you might consider itemizing them with bullets or in test. 
+\begin{itemize}
+	\item e.g., First ...
+	\item e.g., Second ...
+	\item e.g., Third ...
+\end{itemize}
+If the results fall broadly into two categories, 
+you can bring out that distinction here. 
+For example, "Our results are both theoretical and applied in nature. 
+(two sentences follow, one each on theory and application)"
+
+%\todo{What provides the motivation of this work? What are the research issues? What is the rationale of this work? }
+%\blindtext
+\todo{At a high level what are the differences in what you are doing, and what others have done? }
+Keep this at a high level, 
+you can refer to a future section where specific details and differences will be given. 
+But it is important for the reader to know at a high level, 
+what is new about this work compared to other work in the area.
+
+%\todo{What we have done and what are the contributions.}
+%\blindtext
+\todo{A roadmap for the rest of the paper}
+"The remainder of this paper is structured as follows..." 
+Give the reader a roadmap for the rest of the paper. 
+Avoid redundant phrasing, 
+"In Section 2, In section 3, ... In Section 4, ... " etc.
+
+\gangli{A few general tips:
+Don't spend a lot of time into the introduction 
+telling the reader about what you don't do in the paper. 
+Be clear about what you do do.
+Does each paragraph have a theme sentence that sets the stage for the entire paragraph? Are the sentences and topics in the paragraph all related to each other?}
+
+\gangli{Does each paragraph have a theme 
+sentence that sets the stage for the entire paragraph? 
+Are the sentences and topics in the paragraph all related to each other?}
+
+\gangli{Do all of your tenses match up in a paragraph?}
+
+Test citation~\cite{BL12J01}. 
+\begin{JournalOnly}
+and~\citep{BJL11J01} or~\citet{BJL11J01}.
+\end{JournalOnly}
+
+This is for~\cref{tbl:overall-experiments}, 
+\todo[fancyline]{Testing.}
+and this is for~\cref{sec-conclusions}.
+\todo[noline]{A note with no line back to the text.}%
+\gangli{This is comment from Gang.}
+\qwu{Response from QW}
+
+Number:
+\num{123}.
+\numlist{10;30;50;70},
+\numrange{10}{30},
+\SIlist{10;30;45}{\metre},
+and
+\SI{10}{\percent}
+
+\missingfigure[figcolor=white]{Testing figcolor}
+
+
+\begin{ConferenceOnly}
+We have \SI{10}{\hertz},
+\si{\kilogram\metre\per\second},
+the range: \SIrange{10}{100}{\hertz}.
+$\nicefrac[]{1}{2}$.
+
+\missingfigure{Make a sketch of the structure of a trebuchet.}
+
+\end{ConferenceOnly}
+
+
+For~\cref{eq:test},
+as shown below:
+
+\begin{equation}\label{eq:test}
+a = b \times \sqrt{ab}
+\end{equation}
+
+\blindmathpaper
+
+\section{Preliminaries} \label{sec-preliminaries}
+
+\blindtext
+
+\gliMarker  %TODO: GLi Here
+
+\end{comment}
+\section{Pelimineries} \label{sec-method}
+
+\subsection{Quantum Machine Learning}
+
+\subsubsection{Data heterogeneity}
+
+As in conventional FL, the performance of the QFL training process can be significantly affected by the probability distribution of training examples and the imbalanced nature of local data samples, including labels and features, that are retained at individual nodes.
+For instance, Data drift, often referred to as covariate shift, arises when the distribution of input data that an ML model was initially trained on varies from the distribution of input data it encounters during application.
+On the other hand, model drift, also known as concept drift, emerges when the statistical characteristics of the data used for training an ML model undergo changes over time.
+In the context of prior probability shift, local nodes can possess labels characterized by statistical distributions distinct from those of other nodes based on geographical location and/or demographic factors.
+Unbalanced data refers to the substantial variation in the quantity of available data at the local node level.
+In addition to that, individual QFL nodes may very depending on the allocated resources and dynamic capabilities of inadequate computational capacities which might consider during the training process.
+
+\subsubsection{Dimention Reduction}
+\subsubsection{Data Encoding}
+\subsubsection{Variational Quantum Circuits}
+
+\subsection{QFL frameworks}
+
+\subsubsection{Tensorflow quantum and cirq}
+
+\subsubsection{Qiskit}
+
+\subsubsection{Pennylane}
+
+\subsection{Quantum Federated Learning}
+\subsubsection{Centralized QFL}
+Quantum federated learning operates within a centralized environment where a central server plays a pivotal role in orchestrating algorithmic steps and harmonizing the activities of participating nodes \cite{pujahari2022quantum}. In this context, the server assumes responsibility for selecting nodes at the onset of the training phase and aggregating updates associated with diverse models.
+\subsubsection{Decentralized QFL}
+
+In a decentralized quantum federated learning environment, a global model emerges through the arrangement of nodes. Unlike the central server synchronization approach, this setup minimizes vulnerability to single-point failures. Model adjustments are shared across interconnected nodes instead. However, it is essential to note that the network topology can still influence the outcome of the learning process \cite{pujahari2022quantum}.
+\subsection{QFL aggregation Components}
+
+\section{Experiment and Analysis} \label{sec-experiment}
+
+\begin{comment}
+\begin{table}  \centering
+  \caption{Precision Comparison on Event Detection Methods}
+  \label{tbl:overall-experiments}
+  \begin{tabular}{cccc}
+\toprule
+    % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+    & OR Event Detection & AC Event Detection & TC Event Detection \\
+\midrule
+    precision & 0.83 & 0.69 & 0.46 \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+\end{comment}
+
+\section{Open Problems and Future Enhancements}
+
+\begin{itemize}
+\item[01.] Deep Unfolding into Optimization:
+
+\item[02.] Deep Unfolding into Weighted aggregation:
+
+\item [03.] Asynchronicity in QFL:
+Recent progress in quantum federated learning has led to the implementation of novel techniques to handle training asynchronicity and dynamic model variations [4]. These methods include asynchronous approaches that differ from synchronous methods by updating models opportunistically as specific neural network layers are computed, rather than waiting for full layer computations. These techniques, known as segregated and split learning, are interconnected and applicable in both centralized and decentralized quantum federated learning setups
+
+\end{itemize}
+
+\section{Conclusions} \label{sec-conclusions}
+
+
+\section*{Acknowledgement}
+
+
+The authors would like to thank \ldots
+
